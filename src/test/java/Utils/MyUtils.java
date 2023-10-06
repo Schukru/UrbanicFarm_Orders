@@ -26,11 +26,16 @@ public class MyUtils {
     public static void sendKeysFunction(WebElement element, String value) {
         waitUntilVisible(element);
         element.clear();
-        element.sendKeys(value); r
+        element.sendKeys(value);
         MyUtils.getDriverWait(Driver.getDriver())
                 .until(ExpectedConditions.attributeToBe(element, "value", value));
     }
 
+    public static void scrollToTop() {
+        JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+        js.executeScript("window.scrollTo(0,0);");
+        waitFor(2000);
+    }
     public static void scrollToElement(WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
         js.executeScript("arguments[0].scrollIntoView();", element);
@@ -150,6 +155,14 @@ public class MyUtils {
 
     public static String getOrderNo(String text){
         return text.substring((text.indexOf("#"))+1, (text.indexOf("#"))+18);
+    }
+    public static boolean isAnyStringInText(String text, String... stringsToCheck) {
+        for (String str : stringsToCheck) {
+            if (text.contains(str)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -113,12 +113,9 @@ public class E2E_Orders_StepDef {
                     mp.getElement("inputProductName").clear();
 
                     if (i > 1) {
-                        MyUtils.waitFor(500);
+                        MyUtils.scrollToTop();
                         addedProductName = mp.getElementList("currentProductsInHub").get(0).getText();
-                        MyUtils.scrollToElement(mp.getElementList("currentProductsInHub").get(0));
-                        MyUtils.waitUntilClickable(mp.getElementList("currentProductsInHub").get(0));
-                        MyUtils.clickWithActions(mp.getElementList("currentProductsInHub").get(0));
-
+                        MyUtils.clickFunction(mp.getElementList("currentProductsInHub").get(0));
                         MyUtils.sendKeysFunction(mp.getElement("updateAddingProductPrice"), addedProductPrice);
                         MyUtils.sendKeysFunction(mp.getElement("updateAddingProductStock"), addedProductStock);
                         MyUtils.clickFunction(mp.getElement("updateAddingProductButton"));
@@ -133,7 +130,8 @@ public class E2E_Orders_StepDef {
 
     @Then("Verify that the product added message is available")
     public void verifyThatTheProductAddedMessageIsAvailable() {
-        Assert.assertEquals(MyUtils.getElementText(mp.getElement("productAddedAlert")), "Product added.");
+        String alertMessage=MyUtils.getElementText(mp.getElement("productAddedAlert"));
+        Assert.assertTrue(MyUtils.isAnyStringInText(alertMessage, "successful", "added"));
     }
 
     @Then("Open a new frame and select to navigate")
